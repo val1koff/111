@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простая Система Авторизации</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        body {
+            background: url('https://images.alphacoders.com/668/thumb-1920-668126.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+        input, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        input {
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        #welcome-message {
+            display: none;
+            text-align: left;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            overflow: auto;
+        }
+        .small-link {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #0056b3;
+        }
+        .small-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-form" class="form-container">
+        <h2>Авторизация</h2>
+        <input type="text" id="login-username" placeholder="Логин"><br>
+        <input type="password" id="login-password" placeholder="Пароль"><br>
+        <button onclick="login()">Войти</button>
+        <span class="small-link" onclick="alert('Восстановление пароля недоступно')">Забыли пароль?</span>
+        <span class="small-link" onclick="showRegistration()">Регистрация</span>
+    </div>
+    <div id="registration-form" class="form-container" style="display: none;">
+        <h2>Регистрация</h2>
+        <input type="text" id="register-username" placeholder="Логин"><br>
+        <input type="password" id="register-password" placeholder="Пароль"><br>
+        <button onclick="register()">Зарегистрироваться</button>
+        <span class="small-link" onclick="showLogin()">Уже есть аккаунт? Войти</span>
+    </div>
+    <div id="welcome-message">
+        <h2>Добро пожаловать, <span id="user"></span>!</h2>
+        <p>Кибербезопасность – это защита компьютеров, сетей, программных приложений, критически важных систем и данных от потенциальных цифровых угроз...</p>
+        <p>Организации несут ответственность за обеспечение безопасности данных, чтобы сохранять доверие клиентов и соответствовать нормативным требованиям...</p>
+        <p>Они применяют меры по кибербезопасности и используют специальные инструменты для защиты конфиденциальных данных от несанкционированного доступа и предотвращения сбоев, вызванных нежелательной сетевой активностью...</p>
+        <p>Организации обеспечивают кибербезопасность, оптимизируя методы цифровой защиты для сотрудников, процессов и технологий...</p>
+        <p>Компании в различных отраслях, таких как энергетика, транспорт, розничная торговля и промышленность, используют цифровые системы и высокоскоростное подключение, чтобы обеспечивать эффективное обслуживание клиентов и экономичные бизнес-операции...</p>
+        <p>Подобно тому, как они защищают свои физические активы, им необходимо также обеспечивать безопасность своих цифровых ресурсов, а также защищать свои системы от непреднамеренного и преднамеренного доступа...</p>
+        <p>Успешно выполненная кибератака может привести к раскрытию, похищению, удалению или изменению конфиденциальных данных...</p>
+        <button onclick="logout()">Выход</button>
+    </div>
+    <script>
+        var users = {};
+
+        function login() {
+            var username = document.getElementById("login-username").value;
+            var password = document.getElementById("login-password").value;
+
+            if(users[username] && users[username] === password) {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("registration-form").style.display = "none";
+                document.getElementById("welcome-message").style.display = "block";
+                document.getElementById("user").textContent = username;
+            } else {
+                alert("Неверный логин или пароль!");
+            }
+        }
+
+        function register() {
+            var username = document.getElementById("register-username").value;
+            var password = document.getElementById("register-password").value;
+
+            if(users[username]) {
+                alert("Пользователь с таким логином уже существует!");
+            } else {
+                users[username] = password;
+                alert("Регистрация успешна!");
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById("login-form").style.display = "block";
+            document.getElementById("registration-form").style.display = "none";
+        }
+
+        function showRegistration() {
+            document.getElementById("login-form").style.display = "none";
+            document.getElementById("registration-form").style.display = "block";
+        }
+
+        function logout() {
+            document.getElementById("welcome-message").style.display = "none";
+            showLogin();
+            document.getElementById("login-username").value = '';
+            document.getElementById("login-password").value = '';
+        }
+    </script>
+</body>
+</html>
